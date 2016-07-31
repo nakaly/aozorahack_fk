@@ -14,8 +14,6 @@ dic.each do |level,word|
 end
 level_count_hash = Hash.new(0)
 
-arr = Array.new
-
 while line = STDIN.gets
   nm.enum_parse(line).reject do |n|
     n.is_eos?
@@ -28,7 +26,6 @@ while line = STDIN.gets
       word_count_hash[word] += 1
     else
       level_count_hash[0] += 1
-      arr << word + ":" + b
     end
   end
 end
@@ -37,11 +34,28 @@ word_count_hash.each do |word,count|
   level = level_hash[word]
   level_count_hash[level] += count
 end
-p "level_count"
-p level_count_hash
 
-# 実行環境
-# gem install natto
-#
-# 実行例
-# echo 今日は雪が降ってて非常に寒い。おなか減った。| ruby mecab.rb test.csv
+sum = level_count_hash.values.inject(0) { |sum, i| sum + i }
+percentage = level_count_hash.map do |key,val|
+  [key , (val.to_f / sum * 100).to_i ]
+end.to_h
+
+keys = {
+  # 0 => [0], # 0はいらない
+  1 => [1,2,3,4,5],
+  2 => [2,3,4,5],
+  3 => [3,4,5],
+  4 => [4,5],
+  5 => [5],
+}
+
+result = Hash.new
+keys.each do |level, levels|
+  level_sum = levels.inject(0) do |sum, l|
+    sum += percentage[l]
+  end
+  result[level] = level_sum
+end
+
+puts result.map { |key,value| value }.join(",")
+
