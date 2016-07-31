@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js' ></script>
+    <script src='./sample.js'></script>
+  </head>
+  <body>
+    <div id='app'>
+      <ul>
+	<li><button v-on:click="fetchData('1')">JLPT N1</button></li>
+	<li><button v-on:click="fetchData('2')">JLPT N2</button></li>
+	<li><button v-on:click="fetchData('3')">JLPT N3</button></li>
+	<li><button v-on:click="fetchData('4')">JLPT N4</button></li>
+	<li><button v-on:click="fetchData('5')">JLPT N5</button></li>	
+      </ul>
+    
+      <div v-show='hasBooks'>
+	<div v-for='book in books' >
+	  <a v-bind:href='book.url' target='_blank'>
+	    {{book.tittle}}
+	  </a><br />
+	  <span>{{book.auther}}</span><br />
+	  <span>難易度　{{book.gage}} %</span>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>
