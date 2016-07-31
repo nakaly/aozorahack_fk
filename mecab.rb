@@ -53,7 +53,11 @@ result = Hash.new
 keys.each do |level, levels|
   level_sum = levels.inject(0) do |sum, l|
     num = percentage[l]
-    sum += num if num
+    if num
+      sum += num
+    else
+      sum
+    end
   end
   result[level] = level_sum
 end
